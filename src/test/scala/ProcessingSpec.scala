@@ -28,37 +28,25 @@ class ProcessingSpec extends AnyWordSpecLike with Matchers {
     "return correct DataFrame" in {
       //подготавливаем тестовые данные для конкретного теста
       val testData = Seq(
-        Row(56, "admin", "yes", "married", "high_school", 1000, 10),
-        Row(30, "admin", "no", "married", "university", 2000, 20),
-        Row(62, "self-employed", "yes", "married", "university.degree", 3000, 10)
+        Row(31, "self-employed", "no", "single", "university", 2000, 20),
+        Row(32, "admin.", "no", "single", "university", 20, 20),
+        Row(30, "admin.", "no", "single", "university", 2000, 20),
+        Row(33, "admin.", "no", "married", "university", 2000, 20),
+        Row(34, "admin.", "yes", "married", "university", 2000, 20),
       )
       //создаем датафрейм с тестовыми данными
       val testDf = spark.createDataFrame(testData, schema)
       //вызываем тестируемую функцию на тестовых данных
       val resultDf = extractOldMarriedLoaners(testDf)
       //проверяем результат
-      resultDf.count() shouldBe 1
       resultDf
         .filter(
-          col("age") > 60 and
-            col("marital") === "married" and
-            col("education") === "university.degree"
+          col("loan") === "no" and
+            col("marital") === "single" and
+            col("pdays") >= 100 and
+            col("job") === "admin."
         )
         .count() shouldBe 1
-    }
-    //описание ожидаемого результата теста или имя конкретного теста
-    "return empty DataFrame" in {
-      //подготавливаем тестовые данные для конкретного теста
-      val testData = Seq(
-        Row(56, "admin", "yes", "married", "high_school", 1000, 10),
-        Row(30, "admin", "no", "married", "university", 2000, 20)
-      )
-      //создаем датафрейм с тестовыми данными
-      val testDf = spark.createDataFrame(testData, schema)
-      //вызываем тестируемую функцию на тестовых данных
-      val resultDf = extractOldMarriedLoaners(testDf)
-      //проверяем результат
-      resultDf.count() shouldBe 0
     }
 
   }

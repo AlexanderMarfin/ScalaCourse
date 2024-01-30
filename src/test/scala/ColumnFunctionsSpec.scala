@@ -20,9 +20,9 @@ class ColumnFunctionsSpec extends AnyWordSpecLike with Matchers {
     //описание ожидаемого результата теста или имя конкретного теста
     "return correct result" in {
 
-      val inputValue    = 20
-      val number        = 30
-      val expectedValue = 485
+      val inputValue    = 7
+      val number        = 12
+      val expectedValue = 5
       // проверка соответствия полученного результата ожидаемому
       calcFunc(inputValue, number) shouldBe expectedValue
     }
@@ -33,11 +33,12 @@ class ColumnFunctionsSpec extends AnyWordSpecLike with Matchers {
     //описание ожидаемого результата теста или имя конкретного теста
     "return correct result" in {
 
-      val value1        = 1
-      val value2        = 1
-      val expectedValue = 0.5
+      val value1        = 5
+      val value2        = 8
+      val value3        = -10
+      val expectedValue = 4
       // проверка соответствия полученного результата ожидаемому
-      idxCalcFunc(value1, value2) shouldBe expectedValue
+      idxCalcFunc(value1, value2, value3) shouldBe expectedValue
     }
 
   }
